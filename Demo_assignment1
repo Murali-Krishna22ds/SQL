@@ -95,3 +95,27 @@ FROM Orders;
 SELECT INITCAP (Product_Name) AS DUAL FROM ORDERS;
 --Extract the last 3 characters from Order_ID.
 SELECT SUBSTR('Order_ID',1,4) FROM ORDERS;
+--Count how many times letter 'a' appears in Customer_Name. Count how many times letter 'a' appears in Customer_Name.
+SELECT LENGTH(Customer_Name)-LENGTH(REPLACE(LOWER(Customer_Name),'a','')) AS CountA
+FROM Orders;
+-- Extract the last 3 characters from Order_ID.
+SELECT SUBSTR(Order_ID,2,4) AS LAST_3 FROM ORDERS;
+--Mask the last 4 digits of a phone number.
+
+--Split Full_Name into First_Name and Last_Name.
+SELECT SUBSTR(Customer_Name,1,INSTR(Customer_Name,' ')-1) as F_Name,
+SUBSTR(Customer_Name,INSTR(Customer_Name,' ')+1) AS L_Name FROM ORDERS;
+--Remove all special characters from Product_Code.
+SELECT SUBSTR(TRIM('@' FROM Product_Code), 1) AS SPACE
+FROM ORDERS;
+--
+--SELECT REGEXP_REPLACE(Product_Code, '[^A-Za-z0-9]', '') AS CleanCode
+--FROM Orders;
+--  Pad Order_ID with leading zeros to make it 6 digits.
+select lpad(Order_ID, 6, '0') as padded_orderid
+from orders
+---- Extract substring between two characters.dddddddddddddddd
+SELECT REGEXP_SUBSTR(Customer_Name, '\(([^)]+)\)', 1, 1, NULL, 1) AS BetweenChars
+FROM Orders;
+-- Find customers whose name contains 'kumar'.
+select * from orders where lower(Customer_Name) like '%kumar';

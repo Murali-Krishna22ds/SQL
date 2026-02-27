@@ -1,0 +1,89 @@
+DROP TABLE ORDERS;
+
+
+CREATE TABLE orders (
+    order_id      NUMBER PRIMARY KEY,
+    customer_name VARCHAR2(100),
+    product_name  VARCHAR2(100),
+    quantity      NUMBER,
+    unit_price    NUMBER(10,2),
+    order_date    DATE
+);
+
+
+
+INSERT INTO orders VALUES (1, 'John', 'Laptop', 2, 800, DATE '2024-01-10');
+INSERT INTO orders VALUES (2, 'Mary', NULL, 1, 500, DATE '2024-02-15');
+INSERT INTO orders VALUES (3, NULL, 'Tablet', 3, NULL, DATE '2024-03-20');
+INSERT INTO orders VALUES (4, 'David', 'Phone', 5, 300, NULL);
+INSERT INTO orders VALUES (5, NULL, NULL, 2, NULL, NULL);
+INSERT INTO orders VALUES (6, 'Emma', 'Headphones', 1, 0, DATE '2024-04-12');
+INSERT INTO orders VALUES (7, '', 'Monitor', 2, 150, DATE '2024-05-01');
+
+
+DESC orders;
+SELECT * FROM orders;
+
+
+--Replace NULL price with 0
+SELECT nvl(UNIT_PRICE,0) AS PRICE FROM orders;
+
+--Replace NULL Customer_Name with 'Unknown'
+SELECT nvl(CUSTOMER_NAME,'unknown') FROM orders;
+
+--Count NULL values in Product_Name
+SELECT COUNT(*) AS NULL_COUNT FROM orders WHERE PRODUCT_NAME IS NULL;
+
+--Find rows where Order_Date is NULL
+SELECT * FROM ORDERS WHERE Order_Date IS NULL;
+
+--Use COALESCE to return first non-null value
+SELECT COALESCE(CUSTOMER_NAME,PRODUCT_NAME,'no data') FROM ORDERS;
+
+--Use NVL to replace NULL
+SELECT nvl(PRODUCT_NAME,'not avilable') FROM ORDERS;
+
+--Use IFNULL function
+SELECT nvl(UNIT_PRICE,0) FROM ORDERS;
+
+--check if column is null
+SELECT * FROM ORDERS WHERE UNIT_PRICE IS NULL;
+
+--check if column is not null
+SELECT * FROM ORDERS WHERE UNIT_PRICE IS NOT NULL;
+
+--use nullif between 2 columns
+SELECT nullif(QUANTITY,UNIT_PRICE) FROM ORDERS;
+
+--replace blank value as null
+SELECT nullif(CUSTOMER_NAME,'') FROM ORDERS;
+
+--Count non-NULL values
+SELECT COUNT(UNIT_PRICE) FROM ORDERS;
+
+--filter records where price is null or 0
+SELECT * FROM ORDERS WHERE UNIT_PRICE IS NULL OR UNIT_PRICE=0;
+
+--use case to handle null
+SELECT CASE WHEN CUSTOMER_NAME IS NULL THEN 'unknown' ELSE CUSTOMER_NAME END AS CUSTOMER FROM ORDERS;
+
+--Compare NULL values properly
+SELECT * FROM ORDERS WHERE UNIT_PRICE IS NULL;
+
+--handle null in aggregation
+SELECT SUM(nvl(UNIT_PRICE,0)) AS TOTAL_SUM FROM ORDERS;
+
+--AVG HANDLING
+SELECT AVG(nvl(UNIT_PRICE,0)) AS AVG_PRICE FROM ORDERS;
+
+--SELECT AVG
+SELECT AVG(UNIT_PRICE) FROM ORDERS;
+
+--sum ignoring null values
+SELECT SUM(UNIT_PRICE) FROM ORDERS;
+
+--identify columns containg null
+SELECT COLUMN_NAME FROM USER_TAB_COLUMNS WHERE TABLE_NAME='ORDERS' AND NULLABLE = 'y';
+
+--convert null to default system date
+SELECT nvl(ORDER_DATE,sysdate)  as ORDER_DATE FROM ORDERS;
